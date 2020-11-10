@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <script src="https://kit.fontawesome.com/d3aa46a60b.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.5/typed.js"></script>
+
+</head>
+<body>
+    <header>
+        <nav id="navbar">
+            <h1 id="brand-name">Rishav</h1>
+            <span class="menu-bar"><i class="fas fa-bars"></i></span>
+            <ul id="nav-list">
+                <a class="nav-item" href="#banner" id="home-btn"><li>Home</li></a>
+                <a class="nav-item" href="#about-me" id="about-me-btn"><li>about me</li></a>
+                <a class="nav-item" href="#skill" id="my-skills-btn"><li>my skills</li></a>
+                <a class="nav-item" href="/assets/pdf/resume.pdf" id="experience-btn"><li>my resume</li></a>
+                <a class="nav-item" href="#contacts" id="contacts-btn"><li>Contacts</li></a>
+            </ul>
+        </nav>
+    </header>
+    <div id="mobile-navbar">
+        <!-- <ul id="mobile-nav-list"> -->
+            <a class="mobile-nav-item" href="#banner"><li>Home</li></a>
+            <a class="mobile-nav-item" href="#about-me"><li>my skills</li></a>
+            <a class="mobile-nav-item" href="#skill"><li>experience</li></a>
+            <a class="mobile-nav-item" href="#contacts"><li>Contacts</li></a>
+        <!-- </ul> -->
+    </div>
+    <div id="banner">
+        <div class="banner-text">
+            <h1 id="web-main">Hello I am <span id="my-name">Rishav Saha</span></h1>
+            <h2 id="tag-line">It's nice to meet you</h2>
+            <button id="explore">explore</button>
+        </div>
+    </div>
+    <div id="about-me">
+        <div id="my-text">
+            <h2 id="my-text-main">About me</h2>
+            <h3 id="my-text-sub">I am <span id="change-text"></span></h3>
+        </div>
+        <div class="bio-image">
+            <img src="/assets/images/my-image.jpeg" id="my-image">
+        </div>
+        <div class="my-bio">
+            I am a full stack web developer and I use technologies like HTML5 , CSS3 , JavaScript, Bootstrap , ReactJS, NodeJS , Flask , Django , MongoDB , MySQL etc for developing websites. Besides this I also develop cross-platform apps using flutter. I also have a love for machine learning and I am learning Natural Language Processing now. Last but not the least I have a huge interest in digital forensics and cyber security
+        </div>
+        <div class="progress-bars">
+           <div id="web-progress" class="progress-bar" >
+               <label class="prog-bar-name" for="web">Web Development:</label>
+               <progress id="web" class="prog-bar" value="70" max="100" ></progress>
+           </div>
+           <div id="app-progress" class="progress-bar" >
+                <label class="prog-bar-name" for="web">App Development:</label>
+                <progress id="web" class="prog-bar" value="50" max="100"></progress>
+           </div> 
+           <div id="cybersec-progress" class="progress-bar">
+                <label class="prog-bar-name" for="web">Cyber Security:</label>
+                <progress id="web" class="prog-bar" value="40" max="100" ></progress>
+            </div>
+            <div id="ml-progress" class="progress-bar">
+                <label class="prog-bar-name" for="web">Machine Learning:</label>
+                <progress id="web" class="prog-bar" value="30" max="100"></progress>
+            </div>
+        </div>
+    </div>
+    <div id="skill">
+        <div id="skill-container">
+            <h2 id="skill-text">my skills</h2>
+        </div>
+        <div id="cards">
+            <div class="card">
+                <img src="/assets/images/web_icon.png" class="card-image">
+                <h3 class="card-name">Web Development</h3>
+                <p class="card-text">I am a full stack web developer , I develop frontend applications
+                    using html,css,javascript,bootstrap,react and for backend services I use technologies
+                    like NodeJS, Flask and Django. Besides I also have knowledge of devops
+                </p>
+            </div>
+            <div class="card">
+                <img src="/assets/images/app_icon.png" class="card-image">
+                <h3 class="card-name">app development</h3>
+                <p class="card-text">I am also an app developer . I develop cross-platform apps using flutter . I have a good experience of developing apps in flutter and have many projects available on my github account</p>
+            </div>
+            <div class="card">
+                <img src="/assets/images/cybersec_icon.png" class="card-image">
+                <h3 class="card-name">cyber security</h3>
+                <p class="card-text">I am into the field of cyber security for more than a year and have a good knowledge in it specifically in foresics and penetration testing . I have a good knowledge of cryptography also.</p>
+            </div>
+            <div class="card">
+                <img src="/assets/images/ml_icon.png" class="card-image">
+                <h3 class="card-name">machine learning</h3>
+                <p class="card-text">I have been learning machine learning for almost an year and have huge interest in machine learning. Currently I am learning Natural Language Processing</p>
+            </div>
+        </div>
+    </div>
+    <div id="contacts">
+        <div class="contacts-text">
+            <h2 id="contacts-text-main">contact me</h2>
+        </div>
+        <div id="contact-items">
+            <p class="contact-item">email : <span id="email">rishavsaha0907@gmail.com</span></p>
+            <p class="contact-item">contact no: <span id="num">+918017544231</span></p>
+        </div>
+        <div id="contact-icons">
+            <a href="https://www.facebook.com/profile.php?id=100013103286084"><i class="fab fa-facebook"></i></a>
+            <a href="https://www.instagram.com/crypto__cracker_/"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.linkedin.com/in/rishavsaha0907/"><i class="fab fa-linkedin"></i></a>
+            <a href="https://github.com/Rishav0907"><i class="fab fa-github"></i></a>
+            <a href="https://medium.com/@rishavsaha0907"><i class="fab fa-medium"></i></a>
+        </div>
+    </div>
+    <script src="/assets/js/style.js"></script>
+</body>
+</html>
