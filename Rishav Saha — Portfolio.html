@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Rishav Saha</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --color-warm-cream: #ffedd7;
+    --color-walnut-shadow: #100904;
+    --color-bark-brown: #382416;
+    --color-cork-border: #40372e;
+    --color-driftwood: #6c5f51;
+    --color-ember-accent: #dc5000;
+    --font-main: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    --text-display: 51px;
+    --text-heading: 41px;
+    --text-heading-sm: 24px;
+    --text-body: 29px;
+    --text-sub: 18px;
+    --text-label: 12px;
+    --text-micro: 10px;
+    --leading-display: 0.9;
+    --leading-heading: 0.9;
+    --leading-heading-sm: 1.09;
+    --leading-body: 1.26;
+    --radius-card: 12px;
+    --radius-pill: 36px;
+    --radius-outlined: 22.5px;
+    --spacing-18: 18px;
+    --spacing-24: 24px;
+    --spacing-41: 41px;
+    --spacing-68: 68px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--color-walnut-shadow);
+    color: var(--color-warm-cream);
+    font-family: var(--font-main);
+    font-weight: 500;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 48px;
+    background: transparent;
+  }
+
+  .nav-logo {
+    font-size: var(--text-label);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-warm-cream);
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: var(--text-label);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-warm-cream);
+    text-decoration: none;
+    padding-bottom: 3px;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+  }
+
+  .nav-links a:hover,
+  .nav-links a.active {
+    border-bottom: 1px dashed var(--color-cork-border);
+  }
+
+  /* ── SIDEBAR LABEL ── */
+  .sidebar-label {
+    position: fixed;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%) rotate(90deg);
+    transform-origin: center center;
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-driftwood);
+    white-space: nowrap;
+    z-index: 50;
+    pointer-events: none;
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    min-height: 100vh;
+    width: 100vw;
+    padding: 120px 48px 80px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .divider {
+    width: 100%;
+    height: 1px;
+    border: none;
+    border-top: 1px dashed var(--color-cork-border);
+    margin: 0;
+  }
+
+  /* ── HERO ── */
+  #hero {
+    padding-top: 0;
+    justify-content: flex-end;
+    padding-bottom: 80px;
+  }
+
+  .hero-top {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 48px;
+  }
+
+  .hero-tagline {
+    font-size: var(--text-label);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-driftwood);
+    margin-bottom: 12px;
+  }
+
+  .hero-name {
+    font-size: clamp(48px, 8vw, 96px);
+    font-weight: 500;
+    text-transform: uppercase;
+    line-height: 0.9;
+    color: var(--color-warm-cream);
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 0.2s;
+  }
+
+  .hero-role {
+    font-size: var(--text-body);
+    font-weight: 400;
+    line-height: var(--leading-body);
+    color: var(--color-warm-cream);
+    margin-top: 32px;
+    max-width: 540px;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 0.5s;
+  }
+
+  .hero-links {
+    display: flex;
+    gap: 20px;
+    margin-top: 48px;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 0.7s;
+  }
+
+  .btn-pill {
+    display: inline-block;
+    background: var(--color-bark-brown);
+    color: var(--color-warm-cream);
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    padding: 12px 24px;
+    border-radius: var(--radius-pill);
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-ghost {
+    display: inline-block;
+    background: transparent;
+    color: var(--color-warm-cream);
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    padding: 11px 20px;
+    border-radius: var(--radius-outlined);
+    border: 1px solid var(--color-warm-cream);
+    cursor: pointer;
+  }
+
+  .hero-info-card {
+    position: absolute;
+    bottom: 48px;
+    right: 48px;
+    background: rgba(56, 36, 22, 0.6);
+    border-radius: var(--radius-card);
+    padding: 18px 24px;
+    max-width: 280px;
+  }
+
+  .hero-info-card .card-label {
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-warm-cream);
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .hero-info-card hr {
+    border: none;
+    border-top: 1px dashed var(--color-cork-border);
+    margin-bottom: 10px;
+  }
+
+  .hero-info-card p {
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--color-driftwood);
+    line-height: 1.4;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── PUBLICATION ── */
+  #publication {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .pub-layout {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: var(--spacing-41);
+    align-items: start;
+    margin-top: 48px;
+  }
+
+  .pub-left .pub-venue {
+    font-size: var(--text-label);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-ember-accent);
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .pub-left h2 {
+    font-size: var(--text-heading);
+    font-weight: 500;
+    text-transform: uppercase;
+    line-height: var(--leading-heading);
+    color: var(--color-warm-cream);
+  }
+
+  .pub-center-line {
+    width: 1px;
+    min-height: 220px;
+    background: none;
+    border-left: 1px dashed var(--color-cork-border);
+    justify-self: center;
+  }
+
+  .pub-right {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .pub-right p {
+    font-size: var(--text-body);
+    font-weight: 400;
+    line-height: var(--leading-body);
+    color: var(--color-warm-cream);
+    max-width: 480px;
+  }
+
+  .pub-right .pub-detail {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--color-driftwood);
+    line-height: 1.5;
+  }
+
+  /* ── SECTION HEADER ── */
+  .section-header {
+    margin-bottom: 48px;
+  }
+
+  .section-header h2 {
+    font-size: var(--text-heading);
+    font-weight: 500;
+    text-transform: uppercase;
+    line-height: var(--leading-heading);
+    color: var(--color-warm-cream);
+  }
+
+  /* ── EXPERIENCE ── */
+  .exp-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .exp-item {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 48px;
+    padding: 36px 0;
+    border-bottom: 1px dashed var(--color-cork-border);
+  }
+
+  .exp-item:first-child {
+    border-top: 1px dashed var(--color-cork-border);
+  }
+
+  .exp-meta .exp-company {
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-warm-cream);
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .exp-meta .exp-period {
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--color-driftwood);
+    display: block;
+  }
+
+  .exp-content .exp-role {
+    font-size: var(--text-heading-sm);
+    font-weight: 500;
+    text-transform: uppercase;
+    line-height: var(--leading-heading-sm);
+    color: var(--color-warm-cream);
+    margin-bottom: 16px;
+  }
+
+  .exp-content ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .exp-content li {
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.55;
+    color: var(--color-warm-cream);
+    padding-left: 16px;
+    position: relative;
+  }
+
+  .exp-content li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: 4px;
+    height: 1px;
+    background: var(--color-driftwood);
+  }
+
+  /* ── PROJECTS ── */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    border: 1px dashed var(--color-cork-border);
+    border-radius: var(--radius-card);
+    overflow: hidden;
+  }
+
+  .project-card {
+    background: var(--color-walnut-shadow);
+    padding: 36px 32px;
+    border-right: 1px dashed var(--color-cork-border);
+    border-bottom: 1px dashed var(--color-cork-border);
+    position: relative;
+  }
+
+  .project-card:nth-child(even) {
+    border-right: none;
+  }
+
+  .project-card:nth-last-child(-n+2) {
+    border-bottom: none;
+  }
+
+  .project-tag {
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-ember-accent);
+    display: block;
+    margin-bottom: 14px;
+  }
+
+  .project-card h3 {
+    font-size: var(--text-sub);
+    font-weight: 500;
+    text-transform: uppercase;
+    line-height: 1.1;
+    color: var(--color-warm-cream);
+    margin-bottom: 16px;
+  }
+
+  .project-card p {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--color-driftwood);
+  }
+
+  /* ── SKILLS ── */
+  .skills-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+  }
+
+  .skill-group {
+    padding: 36px 0;
+    border-right: 1px dashed var(--color-cork-border);
+    padding-right: 36px;
+    padding-left: 0;
+  }
+
+  .skill-group:last-child {
+    border-right: none;
+    padding-left: 36px;
+    padding-right: 0;
+  }
+
+  .skill-group:nth-child(2) {
+    padding-left: 36px;
+    padding-right: 36px;
+  }
+
+  .skill-group h3 {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-driftwood);
+    margin-bottom: 20px;
+  }
+
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .skill-tag {
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: var(--color-warm-cream);
+    padding: 7px 14px;
+    border: 1px solid var(--color-cork-border);
+    border-radius: var(--radius-outlined);
+    letter-spacing: 0.04em;
+  }
+
+  /* ── EDUCATION ── */
+  .edu-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .edu-item {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 48px;
+    padding: 36px 0;
+    border-bottom: 1px dashed var(--color-cork-border);
+  }
+
+  .edu-item:first-child {
+    border-top: 1px dashed var(--color-cork-border);
+  }
+
+  .edu-meta .edu-year {
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--color-driftwood);
+    display: block;
+  }
+
+  .edu-meta .edu-loc {
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--color-driftwood);
+    display: block;
+    margin-top: 4px;
+  }
+
+  .edu-content h3 {
+    font-size: var(--text-heading-sm);
+    font-weight: 500;
+    text-transform: uppercase;
+    line-height: var(--leading-heading-sm);
+    color: var(--color-warm-cream);
+    margin-bottom: 8px;
+  }
+
+  .edu-content p {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--color-driftwood);
+  }
+
+  /* ── CONTACT ── */
+  #contact {
+    min-height: 60vh;
+    justify-content: center;
+  }
+
+  .contact-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  #contact h2 {
+    font-size: clamp(36px, 6vw, var(--text-heading));
+    font-weight: 500;
+    text-transform: uppercase;
+    line-height: var(--leading-heading);
+    color: var(--color-warm-cream);
+  }
+
+  .contact-links {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  .contact-link {
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-warm-cream);
+    text-decoration: none;
+    padding-bottom: 3px;
+    border-bottom: 1px solid var(--color-driftwood);
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .contact-link.ember {
+    color: var(--color-ember-accent);
+    border-bottom-color: var(--color-ember-accent);
+  }
+
+  .contact-link:hover {
+    border-bottom-color: var(--color-warm-cream);
+  }
+
+  .contact-footnote {
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--color-driftwood);
+    margin-top: 20px;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 16px 24px; }
+    .nav-links { gap: 20px; }
+    section { padding: 100px 24px 60px; }
+
+    .hero-info-card { display: none; }
+    .hero-name { font-size: 44px; }
+    .hero-role { font-size: 20px; }
+
+    .pub-layout { grid-template-columns: 1fr; gap: 24px; }
+    .pub-center-line { display: none; }
+    .pub-left h2 { font-size: 32px; }
+
+    .exp-item { grid-template-columns: 1fr; gap: 12px; }
+    .edu-item { grid-template-columns: 1fr; gap: 12px; }
+
+    .projects-grid { grid-template-columns: 1fr; }
+    .project-card { border-right: none; }
+    .project-card:nth-last-child(-n+2) { border-bottom: 1px dashed var(--color-cork-border); }
+    .project-card:last-child { border-bottom: none; }
+
+    .skills-layout { grid-template-columns: 1fr; }
+    .skill-group { border-right: none; border-bottom: 1px dashed var(--color-cork-border); padding-left: 0 !important; padding-right: 0 !important; }
+    .skill-group:last-child { border-bottom: none; }
+
+    .sidebar-label { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-name, .hero-role, .hero-links { animation: none; opacity: 1; }
+  }
+
+  /* ── BRAIN CANVAS ── */
+  #brain-canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 1;
+    transition: opacity 0.6s ease;
+  }
+
+  #brain-canvas.hidden {
+    opacity: 0;
+  }
+
+  /* push hero content above canvas */
+  #hero { z-index: 1; }
+  nav   { z-index: 100; }
+  .sidebar-label { z-index: 50; }
+
+  /* all other sections sit above canvas */
+  section { z-index: 1; }
+
+  /* scan-line HUD overlay on hero only */
+  .brain-hud {
+    position: absolute;
+    right: 48px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    pointer-events: none;
+  }
+
+  .hud-line {
+    font-size: 9px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--color-driftwood);
+    white-space: nowrap;
+  }
+
+  .hud-line span {
+    color: var(--color-ember-accent);
+  }
+
+  @media (max-width: 768px) {
+    .brain-hud { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- BRAIN CANVAS -->
+<canvas id="brain-canvas"></canvas>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#hero">Rishav Saha</a>
+  <ul class="nav-links">
+    <li><a href="#publication" class="active">Research</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- SIDEBAR -->
+<div class="sidebar-label">AI RESEARCHER — IISC BANGALORE</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-top">
+    <p class="hero-tagline">MTech AI · IISc Bangalore</p>
+    <h1 class="hero-name">Rishav<br>Saha</h1>
+    <p class="hero-role">AI researcher working at the intersection of computer vision, model security, and responsible autonomous systems. Currently at Mercedes-Benz R&amp;D India.</p>
+    <div class="hero-links">
+      <a class="btn-pill" href="mailto:rishavsaha0907@gmail.com">Get in touch</a>
+      <a class="btn-ghost" href="#publication">Research</a>
+      <a class="btn-ghost" href="#projects">Projects</a>
+    </div>
+  </div>
+
+  <div class="hero-info-card">
+    <span class="card-label">Currently</span>
+    <hr>
+    <p>AI Research Scientist at MBRDI, working on autonomous driving perception, fairness evaluation, and LLM security.</p>
+  </div>
+
+  <div class="brain-hud">
+    <div class="hud-line">NODES <span id="hud-nodes">—</span></div>
+    <div class="hud-line">EDGES <span id="hud-edges">—</span></div>
+    <div class="hud-line">SCROLL <span id="hud-scroll">0.00</span></div>
+    <div class="hud-line">RENDER <span id="hud-fps">—</span> FPS</div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- PUBLICATION -->
+<section id="publication">
+  <div class="section-header">
+    <h2>Publication</h2>
+  </div>
+
+  <div class="pub-layout">
+    <div class="pub-left">
+      <span class="pub-venue">ACM ASIACCS 2026</span>
+      <h2>SMAUG-SCA.<br>First power side-channel attack on a post-quantum standard.</h2>
+    </div>
+    <div class="pub-center-line"></div>
+    <div class="pub-right">
+      <p>Conducted the first power side-channel attack on SMAUG-T, the Korean post-quantum cryptography KEM standard, using ChipWhisperer-based trace acquisition and leakage analysis on embedded implementations.</p>
+      <p class="pub-detail">Demonstrated key extraction with &gt;99.9% success probability using fewer than 10 power traces — a result with direct implications for real-world deployment of KpqC-standard devices.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-header">
+    <h2>Experience</h2>
+  </div>
+
+  <div class="exp-list">
+    <div class="exp-item">
+      <div class="exp-meta">
+        <span class="exp-company">Mercedes-Benz R&amp;D India</span>
+        <span class="exp-period">Present</span>
+      </div>
+      <div class="exp-content">
+        <div class="exp-role">AI Research Scientist</div>
+        <ul>
+          <li>Benchmarked CLRNet and open-source lane detection models on CARLA-generated datasets across weather and lighting conditions — 96.64% daylight accuracy, maintaining above 90% under rain, fog, dawn, and night.</li>
+          <li>Architected an end-to-end synthetic data pipeline combining CARLA simulator scenarios with Gemini Flash for scalable autonomous driving training data.</li>
+          <li>Developed a fairness metric quantifying model consistency across weather conditions, enabling objective performance-parity assessment.</li>
+          <li>Contributed to the Evalanche LLM evaluation framework — model accuracy, fairness, and adversarial robustness assessments.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-meta">
+        <span class="exp-company">Scaler</span>
+        <span class="exp-period">Jun 2025 – Dec 2025</span>
+      </div>
+      <div class="exp-content">
+        <div class="exp-role">Data Science Intern</div>
+        <ul>
+          <li>Built a CatBoost-based lead conversion model achieving 88.67% validation accuracy, improving lead targeting efficiency by 8.87%.</li>
+          <li>Engineered features from raw CRM data; optimized through cross-validation and hyperparameter tuning to reduce noise in downstream predictions.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-header">
+    <h2>Projects</h2>
+  </div>
+
+  <div class="projects-grid">
+    <div class="project-card">
+      <span class="project-tag">SLM Finetuning</span>
+      <h3>Compressed Multi-Task Qwen3 for Code Intelligence</h3>
+      <p>Fine-tuned Qwen3-0.6B with Unsloth and LoRA on CodeXGLUE tasks — defect detection, clone detection, summarization. Merged task-specific adapters into a unified multi-task model, then compressed via Wanda pruning, post-training quantization, and SVD-based FFN decomposition.</p>
+    </div>
+
+    <div class="project-card">
+      <span class="project-tag">Search</span>
+      <h3>Semantic Search over 300K MS MARCO Passages</h3>
+      <p>Hybrid retrieval pipeline combining BM25, FAISS-based dense vector search, and Reciprocal Rank Fusion (RRF). 300K 768-dim embeddings via Sentence Transformers. Best NDCG@10: 0.9356. Best MRR: 0.9167. Extending with TurboQuant-based vector compression.</p>
+    </div>
+
+    <div class="project-card">
+      <span class="project-tag">LLM</span>
+      <h3>Multi-Turn Text-to-SQL with Phi-3 &amp; LoRA</h3>
+      <p>Conversational Text-to-SQL assistant fine-tuned on Phi-3 Mini 4K using LoRA and Unsloth. 94.0% Exact Match Accuracy. 91.22% Average Token F1. SQLGlot-based validation and self-correction achieving 100% syntactically valid SQL generation.</p>
+    </div>
+
+    <div class="project-card">
+      <span class="project-tag">LLM Evaluation</span>
+      <h3>Long-Context QA on the NovelQA Benchmark</h3>
+      <p>Evaluated InternLM2-Chat on NovelQA (200K+ token contexts). Implemented and compared RAG, Multi-hop Event Graph Reasoning, and HyDE retrieval strategies. Improved accuracy from 45.45% to 54.54%. Optimized inference with LMDeploy; extended evaluation using Gemma-3 27B pseudo-gold answers.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-header">
+    <h2>Skills</h2>
+  </div>
+
+  <div class="skills-layout">
+    <div class="skill-group">
+      <h3>Languages</h3>
+      <div class="skill-tags">
+        <span class="skill-tag">Python</span>
+        <span class="skill-tag">C++</span>
+        <span class="skill-tag">C</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <h3>Frameworks &amp; Tools</h3>
+      <div class="skill-tags">
+        <span class="skill-tag">PyTorch</span>
+        <span class="skill-tag">Hugging Face</span>
+        <span class="skill-tag">Langchain</span>
+        <span class="skill-tag">FastAPI</span>
+        <span class="skill-tag">Docker</span>
+        <span class="skill-tag">Git</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <h3>Libraries</h3>
+      <div class="skill-tags">
+        <span class="skill-tag">NumPy</span>
+        <span class="skill-tag">Pandas</span>
+        <span class="skill-tag">Scikit-Learn</span>
+        <span class="skill-tag">Matplotlib</span>
+        <span class="skill-tag">FAISS</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-header">
+    <h2>Education</h2>
+  </div>
+
+  <div class="edu-list">
+    <div class="edu-item">
+      <div class="edu-meta">
+        <span class="edu-year">Aug 2023 – Jun 2025</span>
+        <span class="edu-loc">Bangalore, India</span>
+      </div>
+      <div class="edu-content">
+        <h3>MTech in Artificial Intelligence</h3>
+        <p>Indian Institute of Science (IISc) · Under Prof. Venkatesh Babu</p>
+      </div>
+    </div>
+    <div class="edu-item">
+      <div class="edu-meta">
+        <span class="edu-year">Aug 2019 – Jun 2023</span>
+        <span class="edu-loc">Kolkata, India</span>
+      </div>
+      <div class="edu-content">
+        <h3>BTech in Computer Science &amp; Engineering</h3>
+        <p>University of Engineering and Management</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-layout">
+    <h2>Let's connect.</h2>
+    <div class="contact-links">
+      <a class="contact-link" href="mailto:rishavsaha0907@gmail.com">rishavsaha0907@gmail.com</a>
+      <a class="contact-link" href="mailto:rishavs@iisc.ac.in">rishavs@iisc.ac.in</a>
+      <a class="contact-link ember" href="https://github.com" target="_blank" rel="noopener">GitHub</a>
+      <a class="contact-link ember" href="https://linkedin.com" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+    <p class="contact-footnote">* IISC BANGALORE · AI RESEARCH SCIENTIST · MBRDI</p>
+  </div>
+</section>
+
+<script>
+/* ════════════════════════════════════════════════
+   NAV OBSERVER
+════════════════════════════════════════════════ */
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+const navObs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(link => {
+        link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id);
+      });
+    }
+  });
+}, { threshold: 0.4 });
+sections.forEach(s => navObs.observe(s));
+
+/* ════════════════════════════════════════════════
+   THREE.JS BRAIN
+════════════════════════════════════════════════ */
+(function() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const canvas = document.getElementById('brain-canvas');
+  const W = window.innerWidth, H = window.innerHeight;
+
+  // ── Renderer
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(W, H);
+  renderer.setClearColor(0x000000, 0);
+
+  // ── Scene & Camera
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(55, W / H, 0.1, 1000);
+  camera.position.set(0, 0, 3.8);
+
+  // ── Colors from ORYZO tokens
+  const C_CREAM  = new THREE.Color(0xffedd7);
+  const C_EMBER  = new THREE.Color(0xdc5000);
+  const C_DRIFT  = new THREE.Color(0x6c5f51);
+  const C_CORK   = new THREE.Color(0x40372e);
+
+  /* ── Build brain-shaped point cloud ─────────────
+     Use parametric superellipsoid distorted to a
+     rough brain shape: wider at top, sulci bumps,
+     asymmetric left/right lobes.
+  ──────────────────────────────────────────────── */
+  const NODE_COUNT = 420;
+  const positions  = [];
+  const nodeData   = []; // { basePos, phase, speed }
+
+  function brainShape(u, v) {
+    // u ∈ [0,2π], v ∈ [0,π]  — sphere-based with lobe distortion
+    const sinV = Math.sin(v), cosV = Math.cos(v);
+    const sinU = Math.sin(u), cosU = Math.cos(u);
+
+    // Base ellipsoid — wider than tall
+    let x = 1.05 * sinV * cosU;
+    let y = 0.85 * cosV;
+    let z = 0.90 * sinV * sinU;
+
+    // Flatten bottom (cerebellum nub)
+    if (y < -0.5) y *= 0.6;
+
+    // Left/right lobe split — indent centre-top
+    const midCrush = Math.exp(-18 * x * x) * 0.18;
+    if (y > 0.1) y -= midCrush;
+
+    // Sulci bumps — 6 frequency noise
+    const bump = 0.07 * (
+      Math.sin(6 * u + 1.2) * Math.cos(5 * v) +
+      Math.sin(8 * v + 0.5) * Math.cos(4 * u) +
+      Math.sin(3 * u - 2.1) * Math.sin(7 * v + 0.9)
+    );
+    const r = Math.sqrt(x*x + y*y + z*z);
+    x += bump * x / r;
+    y += bump * y / r;
+    z += bump * z / r;
+
+    return new THREE.Vector3(x, y, z);
+  }
+
+  // Scatter points on brain surface
+  for (let i = 0; i < NODE_COUNT; i++) {
+    // Uniform sphere sampling (Marsaglia)
+    let p;
+    do {
+      const u = Math.random() * Math.PI * 2;
+      const v = Math.acos(2 * Math.random() - 1);
+      p = brainShape(u, v);
+    } while (false);
+    positions.push(p);
+    nodeData.push({ base: p.clone(), phase: Math.random() * Math.PI * 2, speed: 0.4 + Math.random() * 0.6 });
+  }
+
+  // ── Node geometry (Points)
+  const nodePosArr = new Float32Array(NODE_COUNT * 3);
+  const nodeColArr = new Float32Array(NODE_COUNT * 3);
+
+  positions.forEach((p, i) => {
+    nodePosArr[i*3]   = p.x;
+    nodePosArr[i*3+1] = p.y;
+    nodePosArr[i*3+2] = p.z;
+    // colour: cream with ember-tinted highlights on "front" nodes
+    const heat = Math.max(0, p.z + p.y * 0.3);
+    const c = C_DRIFT.clone().lerp(C_CREAM, heat * 0.6);
+    nodeColArr[i*3]   = c.r;
+    nodeColArr[i*3+1] = c.g;
+    nodeColArr[i*3+2] = c.b;
+  });
+
+  const nodeGeo = new THREE.BufferGeometry();
+  nodeGeo.setAttribute('position', new THREE.BufferAttribute(nodePosArr.slice(), 3));
+  nodeGeo.setAttribute('color',    new THREE.BufferAttribute(nodeColArr, 3));
+
+  const nodeMat = new THREE.PointsMaterial({
+    size: 0.028,
+    vertexColors: true,
+    sizeAttenuation: true,
+    transparent: true,
+    opacity: 0.9
+  });
+  const nodeMesh = new THREE.Points(nodeGeo, nodeMat);
+  scene.add(nodeMesh);
+
+  // ── Edge geometry (LineSegments)
+  // Connect each node to its K nearest neighbours
+  const K = 4;
+  const edgeVerts = [];
+  const edgeCols  = [];
+
+  for (let i = 0; i < NODE_COUNT; i++) {
+    const pi = positions[i];
+    // Find K nearest
+    const dists = positions.map((pj, j) => ({ j, d: pi.distanceTo(pj) }));
+    dists.sort((a, b) => a.d - b.d);
+    for (let k = 1; k <= K; k++) {
+      const j = dists[k].j;
+      if (j <= i) continue; // avoid duplicates
+      const pj = positions[j];
+      const dist = dists[k].d;
+      if (dist > 0.55) continue; // skip far edges
+      edgeVerts.push(pi.x, pi.y, pi.z, pj.x, pj.y, pj.z);
+      // fade colour by distance
+      const alpha = 1 - dist / 0.55;
+      const ce = C_CORK.clone().lerp(C_DRIFT, alpha * 0.7);
+      edgeCols.push(ce.r, ce.g, ce.b, ce.r, ce.g, ce.b);
+    }
+  }
+
+  const edgeGeo = new THREE.BufferGeometry();
+  edgeGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(edgeVerts), 3));
+  edgeGeo.setAttribute('color',    new THREE.BufferAttribute(new Float32Array(edgeCols), 3));
+  const edgeMat = new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, opacity: 0.5 });
+  const edgeMesh = new THREE.LineSegments(edgeGeo, edgeMat);
+  scene.add(edgeMesh);
+
+  // ── HUD data
+  document.getElementById('hud-nodes').textContent = NODE_COUNT;
+  document.getElementById('hud-edges').textContent = edgeVerts.length / 6;
+
+  // ── Active pulse nodes (Ember sparks)
+  const PULSE_COUNT = 18;
+  const pulseGeo = new THREE.BufferGeometry();
+  const pulsePos = new Float32Array(PULSE_COUNT * 3);
+  const pulseCols = new Float32Array(PULSE_COUNT * 3);
+  for (let i = 0; i < PULSE_COUNT; i++) {
+    const idx = Math.floor(Math.random() * NODE_COUNT);
+    pulsePos[i*3]   = positions[idx].x;
+    pulsePos[i*3+1] = positions[idx].y;
+    pulsePos[i*3+2] = positions[idx].z;
+    pulseCols[i*3]   = C_EMBER.r;
+    pulseCols[i*3+1] = C_EMBER.g;
+    pulseCols[i*3+2] = C_EMBER.b;
+  }
+  pulseGeo.setAttribute('position', new THREE.BufferAttribute(pulsePos, 3));
+  pulseGeo.setAttribute('color',    new THREE.BufferAttribute(pulseCols, 3));
+  const pulseMat = new THREE.PointsMaterial({
+    size: 0.055,
+    vertexColors: true,
+    sizeAttenuation: true,
+    transparent: true,
+    opacity: 0.0
+  });
+  const pulseMesh = new THREE.Points(pulseGeo, pulseMat);
+  scene.add(pulseMesh);
+
+  // ── Group everything
+  const brainGroup = new THREE.Group();
+  brainGroup.add(nodeMesh);
+  brainGroup.add(edgeMesh);
+  brainGroup.add(pulseMesh);
+  // Offset brain to right half of viewport on desktop
+  brainGroup.position.x = window.innerWidth > 768 ? 0.9 : 0;
+  scene.add(brainGroup);
+
+  // ── Scroll state
+  let scrollProgress = 0;
+  let targetScrollProgress = 0;
+
+  window.addEventListener('scroll', () => {
+    const docH = document.documentElement.scrollHeight - window.innerHeight;
+    targetScrollProgress = docH > 0 ? window.scrollY / docH : 0;
+    document.getElementById('hud-scroll').textContent = targetScrollProgress.toFixed(2);
+
+    // Fade canvas out past 50% scroll
+    if (targetScrollProgress > 0.5) {
+      canvas.classList.add('hidden');
+    } else {
+      canvas.classList.remove('hidden');
+    }
+  });
+
+  // ── Resize
+  window.addEventListener('resize', () => {
+    const w = window.innerWidth, h = window.innerHeight;
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    renderer.setSize(w, h);
+    brainGroup.position.x = w > 768 ? 0.9 : 0;
+  });
+
+  // ── Clock & FPS
+  let lastTime = performance.now();
+  let frameCount = 0;
+  let fps = 60;
+
+  // ── Animate
+  function animate(now) {
+    requestAnimationFrame(animate);
+
+    const t = now * 0.001;
+    frameCount++;
+    if (now - lastTime >= 1000) {
+      fps = frameCount;
+      frameCount = 0;
+      lastTime = now;
+      document.getElementById('hud-fps').textContent = fps;
+    }
+
+    // Smooth scroll lerp
+    scrollProgress += (targetScrollProgress - scrollProgress) * 0.06;
+
+    // ── Scroll-driven rotation
+    // Y-axis: full 360 over scroll
+    brainGroup.rotation.y = scrollProgress * Math.PI * 2;
+    // X-axis tilt: tip forward as you scroll
+    brainGroup.rotation.x = scrollProgress * 0.8 - 0.1;
+    // Idle gentle sway on top of scroll rotation
+    brainGroup.rotation.y += Math.sin(t * 0.3) * 0.015;
+
+    // ── Camera dolly: zoom in slightly mid-scroll, then back
+    const zoomCurve = Math.sin(scrollProgress * Math.PI); // 0 → 1 → 0
+    camera.position.z = 3.8 - zoomCurve * 0.6;
+
+    // ── Node pulse animation
+    const posAttr = nodeGeo.getAttribute('position');
+    for (let i = 0; i < NODE_COUNT; i++) {
+      const nd = nodeData[i];
+      const pulse = 1 + 0.025 * Math.sin(t * nd.speed + nd.phase);
+      posAttr.setXYZ(i, nd.base.x * pulse, nd.base.y * pulse, nd.base.z * pulse);
+    }
+    posAttr.needsUpdate = true;
+
+    // ── Ember pulse opacity — flickers like synapses
+    const pulseOpacity = 0.5 + 0.5 * Math.sin(t * 2.2);
+    pulseMat.opacity = pulseOpacity * Math.max(0, 1 - scrollProgress * 2);
+
+    // ── Fade brain edges in on load
+    const loadFade = Math.min(1, t / 2.5);
+    nodeMat.opacity  = 0.9 * loadFade;
+    edgeMat.opacity  = 0.5 * loadFade;
+
+    renderer.render(scene, camera);
+  }
+
+  animate(0);
+})();
+</script>
+</body>
+</html>
