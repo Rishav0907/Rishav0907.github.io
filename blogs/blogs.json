@@ -1,0 +1,8 @@
+{
+  "slug": "Unlocking-the-power-of-relu",
+  "title": "Unlocking the Power of ReLU",
+  "date": "2023-03-10",
+  "tag": "Deep Learning",
+  "excerpt": "Why modern neural networks use ReLU over sigmoid and tanh — a mathematical breakdown of vanishing gradients.",
+  "file": "blogs/unlocking-the-power-of-relu.md"
+}
