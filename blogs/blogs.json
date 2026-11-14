@@ -14,5 +14,13 @@
     "tag": "Operating Systems",
     "excerpt": "Abstract view of memory, addressing, static vs dynamic loading and linking — CS-101 series.",
     "file": "blogs/memory-management-os-part-1.md"
-  }
+  },
+  {
+  "slug": "gradient-descent-geometrical-interpretation",
+  "title": "Gradient Descent — Geometrical Interpretation",
+  "date": "2022-10-22",
+  "tag": "Machine Learning",
+  "excerpt": "Intuitive geometric explanation of how Gradient Descent works, why fixed step sizes cause oscillation, and how to fix it.",
+  "file": "blogs/gradient-descent-geometrical-interpretation.md"
+}
 ]
