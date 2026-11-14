@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -518,9 +519,11 @@ section{position:relative;z-index:10;min-height:100vh;width:100vw;padding:120px 
    4. Update GITHUB_RAW_BASE below to point to your repo.
 ═══════════════════════════════════════════════ */
 (function () {
-  // ── CONFIG — swap this one line when your repo is ready
-  const GITHUB_RAW_BASE = 'https://Rishav0907.github.io/';
-  const INDEX_URL = GITHUB_RAW_BASE + 'blogs/blogs.json';
+  // ── CONFIG
+  const GITHUB_PAGES_BASE = 'https://rishav0907.github.io/';
+  const GITHUB_RAW_BASE   = 'https://raw.githubusercontent.com/Rishav0907/Rishav0907.github.io/master/';
+  const INDEX_URL         = GITHUB_PAGES_BASE + 'blogs/blogs.json';
+  const INDEX_URL_FALLBACK= GITHUB_RAW_BASE   + 'blogs/blogs.json';
 
   const blogBody  = document.getElementById('blog-body');
   const modal     = document.getElementById('blog-modal');
@@ -579,6 +582,17 @@ section{position:relative;z-index:10;min-height:100vh;width:100vw;padding:120px 
     return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   }
 
+  // ── Fetch helper: tries Pages URL first, falls back to raw.githubusercontent
+  async function fetchWithFallback(pagesUrl, rawUrl) {
+    try {
+      const res = await fetch(pagesUrl, { mode: 'cors' });
+      if (res.ok) return res;
+    } catch (_) {}
+    const res2 = await fetch(rawUrl, { mode: 'cors' });
+    if (res2.ok) return res2;
+    throw new Error('Both URLs failed');
+  }
+
   // ── Open a post
   async function openPost(post) {
     document.getElementById('modal-title').textContent = post.title;
@@ -592,17 +606,18 @@ section{position:relative;z-index:10;min-height:100vh;width:100vw;padding:120px 
     document.body.style.overflow = 'hidden';
 
     try {
-      const url = GITHUB_RAW_BASE + post.file;
-      const res = await fetch(url);
-      if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+      const pagesUrl = GITHUB_PAGES_BASE + post.file;
+      const rawUrl   = GITHUB_RAW_BASE   + post.file;
+      const res = await fetchWithFallback(pagesUrl, rawUrl);
       const md  = await res.text();
       document.getElementById('modal-content').innerHTML = mdToHtml(md);
     } catch (err) {
       document.getElementById('modal-content').innerHTML =
         `<div class="blog-error">
-          <span>ERR</span> Could not load post from GitHub.<br><br>
-          Make sure the file exists at:<br>
-          <code>${GITHUB_RAW_BASE + post.file}</code>
+          <span>ERR</span> Could not load post.<br><br>
+          Tried:<br>
+          <code>${GITHUB_PAGES_BASE + post.file}</code><br><br>
+          Make sure the file exists in your repo's <code>blogs/</code> folder.
         </div>`;
     }
   }
@@ -650,12 +665,10 @@ section{position:relative;z-index:10;min-height:100vh;width:100vw;padding:120px 
     blogBody.innerHTML = '<div class="blog-loading">Checking for posts…</div>';
 
     try {
-      const res = await fetch(INDEX_URL);
-      if (!res.ok) throw new Error(res.status);
+      const res   = await fetchWithFallback(INDEX_URL, INDEX_URL_FALLBACK);
       const posts = await res.json();
       renderList(posts);
     } catch (_) {
-      // No index file yet → coming soon
       renderComingSoon();
     }
   }
