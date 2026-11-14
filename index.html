@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,6 +27,80 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .nav-links{display:flex;gap:32px;list-style:none}
 .nav-links a{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:var(--cream);text-decoration:none;padding-bottom:3px;border-bottom:1px solid transparent;transition:border-color .2s}
 .nav-links a:hover,.nav-links a.active{border-bottom:1px dashed var(--cork)}
+
+/* ── MOBILE RADIAL SECTION MENU */
+.radial-toggle{display:none}
+.radial-menu{display:none}
+@media(max-width:768px){
+  .nav-links{display:none}
+  .radial-toggle{
+    display:flex;align-items:center;justify-content:center;gap:9px;
+    min-height:42px;padding:0 14px;border:1px solid rgba(108,95,81,.72);
+    border-radius:999px;background:rgba(16,9,4,.9);color:var(--cream);
+    font:9px var(--mono);letter-spacing:.12em;text-transform:uppercase;cursor:pointer;
+    -webkit-tap-highlight-color:transparent;backdrop-filter:blur(12px);
+    box-shadow:0 5px 18px rgba(0,0,0,.2);
+    transition:border-color .2s,background .2s,transform .2s;
+  }
+  .radial-toggle:active{transform:scale(.97)}
+  .radial-toggle:hover,.radial-toggle[aria-expanded="true"]{
+    border-color:var(--ember);background:rgba(56,36,22,.94);
+  }
+  .radial-toggle-icon{
+    width:14px;height:14px;display:grid;grid-template-columns:repeat(2,4px);
+    grid-template-rows:repeat(2,4px);gap:3px;align-content:center;justify-content:center;
+    transition:transform .3s;
+  }
+  .radial-toggle-icon i{display:block;width:4px;height:4px;border-radius:1px;background:var(--ember)}
+  .radial-toggle[aria-expanded="true"] .radial-toggle-icon{transform:rotate(45deg)}
+  .radial-toggle-label{color:var(--cream)}
+  #radial-current{
+    padding-left:8px;border-left:1px solid rgba(108,95,81,.55);
+    color:var(--ember);font-size:9px;letter-spacing:.04em;
+  }
+  .radial-menu{
+    display:block;position:fixed;top:66px;right:10px;width:260px;height:260px;
+    z-index:220;opacity:0;visibility:hidden;transform:scale(.78);
+    transform-origin:top right;transition:opacity .22s ease,transform .28s cubic-bezier(.2,.8,.2,1),visibility .22s;
+    pointer-events:none;
+  }
+  .radial-menu.open{opacity:1;visibility:visible;transform:scale(1);pointer-events:auto}
+  .radial-menu::before{
+    content:'';position:absolute;inset:28px;border:1px dashed rgba(108,95,81,.55);
+    border-radius:50%;background:rgba(16,9,4,.94);box-shadow:0 16px 48px rgba(0,0,0,.45);
+    backdrop-filter:blur(14px);
+  }
+  .radial-menu::after{
+    content:'SELECT A SECTION';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+    color:var(--drift);font:7px var(--mono);letter-spacing:.12em;white-space:nowrap;pointer-events:none;
+  }
+  .radial-links{position:absolute;inset:0;list-style:none;margin:0;padding:0}
+  .radial-links a{
+    position:absolute;left:50%;top:50%;width:88px;min-height:34px;
+    display:flex;align-items:center;justify-content:center;gap:5px;
+    color:var(--drift);text-decoration:none;text-transform:uppercase;
+    font:9px var(--mono);letter-spacing:.035em;
+    border:1px solid transparent;border-radius:20px;
+    transform:translate(-50%,-50%);transition:color .2s,border-color .2s,background .2s;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .radial-links a::before{content:attr(data-index);color:var(--ember);font-size:8px}
+  .radial-links a.active,.radial-links a:focus-visible{
+    color:var(--cream);border-color:var(--cork);background:rgba(56,36,22,.9);outline:none;
+  }
+  .radial-links a:hover{color:var(--cream)}
+  .radial-links li:nth-child(1) a{top:9%;left:50%}
+  .radial-links li:nth-child(2) a{top:22%;left:79%}
+  .radial-links li:nth-child(3) a{top:50%;left:88%}
+  .radial-links li:nth-child(4) a{top:78%;left:79%}
+  .radial-links li:nth-child(5) a{top:91%;left:50%}
+  .radial-links li:nth-child(6) a{top:78%;left:21%}
+  .radial-links li:nth-child(7) a{top:50%;left:12%}
+  .radial-links li:nth-child(8) a{top:22%;left:21%}
+}
+@media(prefers-reduced-motion:reduce){
+  .radial-menu,.radial-toggle .radial-toggle-icon,.radial-links a{transition:none}
+}
 
 /* ── SECTION PROGRESS BAR */
 #section-progress{position:fixed;left:12px;top:0;width:1px;height:0%;background:var(--drift);z-index:190;transition:height .1s linear;transform-origin:top}
@@ -324,7 +399,26 @@ section{position:relative;z-index:10;min-height:100vh;width:100vw;padding:120px 
     <li><a href="#blog">Blog</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
+  <button class="radial-toggle" id="radial-toggle" type="button"
+          aria-label="Open section menu" aria-expanded="false" aria-controls="radial-menu">
+    <span class="radial-toggle-icon" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+    <span class="radial-toggle-label">Sections</span>
+    <span id="radial-current" aria-hidden="true">01</span>
+  </button>
 </nav>
+
+<div class="radial-menu" id="radial-menu" aria-hidden="true">
+  <ul class="radial-links">
+    <li><a href="#hero" data-index="01">Intro</a></li>
+    <li><a href="#publication" data-index="02">Research</a></li>
+    <li><a href="#experience" data-index="03">Experience</a></li>
+    <li><a href="#projects" data-index="04">Projects</a></li>
+    <li><a href="#skills" data-index="05">Skills</a></li>
+    <li><a href="#education" data-index="06">Education</a></li>
+    <li><a href="#blog" data-index="07">Blog</a></li>
+    <li><a href="#contact" data-index="08">Contact</a></li>
+  </ul>
+</div>
 
 <div class="sidebar-label">AI RESEARCHER — IISC BANGALORE</div>
 
@@ -702,17 +796,45 @@ const SECTION_NAMES = { hero:'HERO', publication:'RESEARCH', experience:'EXPERIE
 let currentSection = 'hero';
 (function(){
   const secs  = document.querySelectorAll('section[id]');
-  const links = document.querySelectorAll('.nav-links a');
+  const links = document.querySelectorAll('.nav-links a, .radial-links a');
   const obs = new IntersectionObserver(entries=>{
     entries.forEach(e=>{
       if(e.isIntersecting){
         currentSection = e.target.id;
         document.getElementById('hud-section').textContent = SECTION_NAMES[e.target.id]||e.target.id.toUpperCase();
         links.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+e.target.id));
+        const radialIndex = [...document.querySelectorAll('.radial-links a')].findIndex(l=>l.getAttribute('href')==='#'+e.target.id);
+        const radialCurrent = document.getElementById('radial-current');
+        if(radialCurrent) radialCurrent.textContent = String(radialIndex + 1).padStart(2,'0');
       }
     });
   },{threshold:0.4});
   secs.forEach(s=>obs.observe(s));
+})();
+
+/* ── RADIAL MENU INTERACTIONS */
+(function(){
+  const toggle = document.getElementById('radial-toggle');
+  const menu = document.getElementById('radial-menu');
+  if(!toggle || !menu) return;
+
+  function setOpen(open){
+    menu.classList.toggle('open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Close section menu' : 'Open section menu');
+    menu.setAttribute('aria-hidden', String(!open));
+  }
+
+  toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+  menu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => setOpen(false));
+  });
+  document.addEventListener('click', event => {
+    if(!menu.contains(event.target) && !toggle.contains(event.target)) setOpen(false);
+  });
+  document.addEventListener('keydown', event => {
+    if(event.key === 'Escape') setOpen(false);
+  });
 })();
 
 /* ═══════════════════════════════════════════════
