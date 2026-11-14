@@ -627,7 +627,8 @@ section{position:relative;z-index:10;min-height:100vh;width:100vw;padding:120px 
     if (!posts.length) { renderComingSoon(); return; }
     const list = document.createElement('div');
     list.className = 'blog-list';
-    posts.forEach(post => {
+    const newestFirst = [...posts].sort((a, b) => Date.parse(b.date) - Date.parse(a.date));
+    newestFirst.forEach(post => {
       const item = document.createElement('div');
       item.className = 'blog-item';
       item.innerHTML = `

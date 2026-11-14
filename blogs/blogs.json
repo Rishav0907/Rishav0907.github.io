@@ -6,5 +6,13 @@
     "tag": "Deep Learning",
     "excerpt": "Why modern neural networks use ReLU over sigmoid and tanh — a mathematical breakdown of vanishing gradients.",
     "file": "blogs/unlocking-the-power-of-relu.md"
+  },
+  {
+    "slug": "memory-management-os-part-1",
+    "title": "Memory Management in OS — Part 1",
+    "date": "2022-11-16",
+    "tag": "Operating Systems",
+    "excerpt": "Abstract view of memory, addressing, static vs dynamic loading and linking — CS-101 series.",
+    "file": "blogs/memory-management-os-part-1.md"
   }
 ]
