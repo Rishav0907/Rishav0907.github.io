@@ -130,15 +130,5 @@ By using a small non-zero slope for negative inputs, we avoid dead activations �
 
 ---
 
-## Summary
-
-| Property | Sigmoid | Tanh | ReLU |
-|---|---|---|---|
-| Output range | (0, 1) | (−1, 1) | (0, ∞) |
-| Max derivative | 0.25 | 1.0 | 1 |
-| Vanishing gradient | Yes | Yes | No |
-| Exploding gradient | Possible | Rare | No |
-| Dead activation | No | No | Possible |
-| Computational cost | High | High | Low |
 
 ReLU's combination of a simple derivative (0 or 1), low computational cost, and immunity to vanishing/exploding gradients is why it became — and remains — the default activation function in modern deep neural networks.

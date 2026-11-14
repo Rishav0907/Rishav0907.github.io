@@ -22,5 +22,29 @@
   "tag": "Machine Learning",
   "excerpt": "Intuitive geometric explanation of how Gradient Descent works, why fixed step sizes cause oscillation, and how to fix it.",
   "file": "blogs/gradient-descent-geometrical-interpretation.md"
+},
+{
+  "slug": "svm-geometrical-interpretation",
+  "title": "Support Vector Machines — Geometrical Interpretation",
+  "date": "2022-04-13",
+  "tag": "Machine Learning",
+  "excerpt": "Intuitive geometric walkthrough of how SVMs find the margin-maximizing hyperplane and why support vectors matter.",
+  "file": "blogs/svm-geometrical-interpretation.md"
+},
+{
+  "slug": "hard-margin-svm-mathematical-formulation",
+  "title": "Hard Margin SVM — Mathematical Formulation",
+  "date": "2022-04-17",
+  "tag": "Machine Learning",
+  "excerpt": "Full derivation of the Hard Margin SVM optimization problem — from margin geometry to the constrained quadratic program.",
+  "file": "blogs/hard-margin-svm-mathematical-formulation.md"
+},
+{
+  "slug": "nlp-with-naive-bayes",
+  "title": "Natural Language Processing with Naive Bayes",
+  "date": "2021-06-28",
+  "tag": "NLP",
+  "excerpt": "Bag of Words, stop-word removal, stemming, n-grams — and the Naive Bayes derivation from scratch with a conditional independence assumption.",
+  "file": "blogs/nlp-with-naive-bayes.md"
 }
 ]

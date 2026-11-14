@@ -129,14 +129,3 @@ When execution reaches the BSA instruction at runtime:
 Dynamic linking is the most commonly used method in modern operating systems.
 
 ---
-
-## Summary
-
-| Technique | Speed | Memory Efficiency |
-|---|---|---|
-| Static Loading | Fast | Poor |
-| Dynamic Loading | Slower | Efficient |
-| Static Linking | Fastest | Poor |
-| Dynamic Linking | Slower | Efficient |
-
-*Next in CS-101: Contiguous and Non-Contiguous Memory Management techniques.*

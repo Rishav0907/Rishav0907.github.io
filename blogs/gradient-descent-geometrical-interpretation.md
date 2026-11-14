@@ -130,16 +130,5 @@ r_k = r₀ / (1 + decay · k)
 
 A smaller step size near the minimum prevents overshooting and allows the algorithm to converge.
 
----
-
-## Summary
-
-| Concept | Key Idea |
-|---|---|
-| Gradient | Direction of steepest ascent |
-| Negative gradient | Direction of steepest descent |
-| Step size `r` | Controls how far we move each iteration |
-| Fixed `r` | Risk of oscillation near the minimum |
-| Dynamic `r` | Shrinks over time, ensures convergence |
 
 Gradient Descent is the backbone of nearly every modern machine learning optimization — from linear regression to training deep neural networks.
